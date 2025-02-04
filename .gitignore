@@ -1,0 +1,12 @@
+# CLion
+.idea/
+cmake-build-*/
+*.iml
+*.pro.user
+CMakeCache.txt
+CMakeFiles/
+*.swp
+*.swo
+main.cpp
+Algorithm Flowchart.eddx
+CMakeLists.txt
