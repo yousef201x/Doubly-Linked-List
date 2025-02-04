@@ -7,4 +7,6 @@ CMakeCache.txt
 CMakeFiles/
 *.swp
 *.swo
-.main.cpp
+main.cpp
+Algorithm Flowchart.eddx
+CMakeLists.txt
