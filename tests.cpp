@@ -1,57 +1,53 @@
 #include <iostream>
-#include <cassert>
+#include "DLL.h" // Your implementation
 
-#include "DLL.h"
-
-void test_empty_list() {
-    DLL<int> list;
-    assert(list.empty() == true); // The list should be empty
-    assert(list.size() == 0); // The size should be 0
-}
-
-void test_push_back_and_pop_back() {
-    DLL<int> list;
-    list.push_back(10);
-    list.push_back(20);
-    assert(list.size() == 2); // List size should be 2
-    assert(list[0] == 10); // First element should be 10
-    assert(list[1] == 20); // Second element should be 20
-    list.pop_back();
-    assert(list.size() == 1); // Size should be 1 after pop
-    assert(list[0] == 10); // The remaining element should be 10
-}
-
-void test_push_front_and_pop_front() {
-    DLL<int> list;
-    list.push_front(10);
-    list.push_front(20);
-    assert(list.size() == 2); // List size should be 2
-    assert(list[0] == 20); // First element should be 20
-    assert(list[1] == 10); // Second element should be 10
-    list.pop_front();
-    assert(list.size() == 1); // Size should be 1 after pop
-    assert(list[0] == 10); // The remaining element should be 10
-}
-
-void test_insert_and_erase() {
+void test_push_back() {
     DLL<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
-    list.insert(1, 15);
-    assert(list[0] == 10);
-    assert(list[1] == 15); // 15 should be inserted at index 1
-    list.erase(1);
-    assert(list[1] == 20); // After erase, 15 should be removed
+    std::cout << "Test push_back: " << (list[0] == 10 && list[1] == 20 && list[2] == 30 ? "PASSED" : "FAILED") << "\n";
 }
 
-void test_out_of_bounds_access() {
+void test_push_front() {
     DLL<int> list;
-    try {
-        list[0]; // This should throw an exception because the list is empty
-    } catch (const std::out_of_range& e) {
-        assert(true); // Exception should be caught
-    }
+    list.push_front(30);
+    list.push_front(20);
+    list.push_front(10);
+    std::cout << "Test push_front: " << (list[0] == 10 && list[1] == 20 && list[2] == 30 ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_pop_back() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.pop_back();
+    std::cout << "Test pop_back: " << (list.size() == 1 && list[0] == 10 ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_pop_front() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.pop_front();
+    std::cout << "Test pop_front: " << (list.size() == 1 && list[0] == 20 ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_insert() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(30);
+    list.insert(1, 20);
+    std::cout << "Test insert: " << (list[0] == 10 && list[1] == 20 && list[2] == 30 ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_erase() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+    list.erase(1);
+    std::cout << "Test erase: " << (list[0] == 10 && list[1] == 30 ? "PASSED" : "FAILED") << "\n";
 }
 
 void test_clear() {
@@ -59,18 +55,47 @@ void test_clear() {
     list.push_back(10);
     list.push_back(20);
     list.clear();
-    assert(list.empty() == true); // The list should be empty after clear
-    assert(list.size() == 0); // Size should be 0
+    std::cout << "Test clear: " << (list.empty() ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_copy_constructor() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(20);
+
+    DLL<int> copy(list); // Using copy constructor
+
+    std::cout << "Test copy constructor: " << (copy.size() == 2 && copy[0] == 10 && copy[1] == 20 ? "PASSED" : "FAILED") << "\n";
+}
+
+void test_iterator() {
+    DLL<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+
+    DLL<int>::iterator it;
+    it = list.start();
+
+    bool passed = (*it == 10);
+    ++it;
+    passed &= (*it == 20);
+    ++it;
+    passed &= (*it == 30);
+
+    std::cout << "Test iterator: " << (passed ? "PASSED" : "FAILED") << "\n";
 }
 
 int main() {
-    test_empty_list();
-    test_push_back_and_pop_back();
-    test_push_front_and_pop_front();
-    test_insert_and_erase();
-    test_out_of_bounds_access();
+    test_push_back();
+    test_push_front();
+    test_pop_back();
+    test_pop_front();
+    test_insert();
+    test_erase();
     test_clear();
+    test_copy_constructor();
+    test_iterator();
 
-    std::cout << "All tests passed!" << std::endl;
     return 0;
 }

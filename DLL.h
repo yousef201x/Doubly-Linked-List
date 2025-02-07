@@ -22,20 +22,52 @@ protected:
     void resetSize() { this->_size = 0; }      // Reset size
 
 public:
+
+    struct iterator{
+        Node* ptr ;
+        iterator() : ptr(nullptr){}
+
+        iterator& operator=(Node* right){
+            this->ptr = right;
+            return *this;
+        }
+
+        bool operator!=(Node* right){
+            return this->ptr != right;
+        }
+
+        void operator++(){
+            ptr = ptr->next;
+        }
+
+        void operator++(int){
+            ptr = ptr->next;
+        }
+
+        ty operator*(){
+            return ptr->val;
+        }
+    };
+
     DLL() : head(nullptr), tail(nullptr) , _size(0) {}  // Constructor initializes an empty list
 
-    DLL(DLL &other){
-        if(other.empty()){
+    DLL(DLL &other) {
+        if (other.empty()) {
+            head = tail = nullptr;
+            _size = 0;
             return;
         }
 
+        head = tail = nullptr;
+        _size = 0;
         Node* other_itr = other.start();
 
-        while (other != nullptr){
+        while (other_itr != nullptr) {
             this->push_back(other_itr->val);
             other_itr = other_itr->next;
         }
     }
+
 
     ~DLL() { this->clear(); }  // Destructor cleans up the list
 
@@ -55,7 +87,7 @@ public:
     bool empty() { return head == nullptr && tail == nullptr; }  // Check if list is empty
     int size() { return this->_size; }  // Get current size
     Node* start(){return this->head;}
-    Node* end(){return this->tail;}
+    Node* end(){return nullptr;}
 
     void push_back(ty val) {  // Add a node to the end
         if (this->empty()) {
@@ -157,7 +189,6 @@ public:
         delete temp;
         this->decreaseSize();
     }
-
 };
 
 #endif //DLL_DLL_H
